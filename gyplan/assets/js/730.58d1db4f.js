@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkgyplan"]=self["webpackChunkgyplan"]||[]).push([[730],{730:function(n,l,u){u.r(l),u.d(l,{default:function(){return f}});var t=function(){var n=this,l=n._self._c;return l("div",{staticClass:"GyShop"},[n._v(" 顾渊商城 ")])},s=[],e={},a=e,r=u(1001),c=(0,r.Z)(a,t,s,!1,null,null,null),f=c.exports}}]);
+//# sourceMappingURL=730.58d1db4f.js.map

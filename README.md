@@ -16,6 +16,6 @@ npm install 或 yarn(推荐)
 
 npm run dev
 
-访问: http://localhost:8000（如果已启动前台程序，则不需打开此地址）
+访问: http://localhost:8080（如果已启动前台程序，则不需打开此地址）
 
 ```

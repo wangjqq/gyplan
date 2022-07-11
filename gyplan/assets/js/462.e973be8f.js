@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkgyplan"]=self["webpackChunkgyplan"]||[]).push([[462],{2462:function(n,l,u){u.r(l),u.d(l,{default:function(){return i}});var t=function(){var n=this,l=n._self._c;return l("div",{staticClass:"index"},[n._v(" 首页 ")])},e=[],s={},a=s,r=u(1001),c=(0,r.Z)(a,t,e,!1,null,null,null),i=c.exports}}]);
+//# sourceMappingURL=462.e973be8f.js.map
