@@ -5,7 +5,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
-    port, //设置端口
+    port: 8080, //设置端口
     open: true // 控制是否自动打开浏览器
   },
   publicPath: './', //修改目录
