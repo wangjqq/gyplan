@@ -5,6 +5,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
+    host: 'localhost',
     port: 8080, //设置端口
     open: true // 控制是否自动打开浏览器
   },
