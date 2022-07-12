@@ -5,9 +5,12 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
-    // host: 'localhost',
+    host: 'localhost',
     port: 80, //设置端口
-    open: true // 控制是否自动打开浏览器
+    open: true, // 控制是否自动打开浏览器
+    // disableHostCheck: true, //跳过检查host  已遗弃
+    historyApiFallback: true,
+    allowedHosts: "all"
   },
   publicPath: './', //修改目录
   outputDir: 'gyplan', // build时构建文件的目录 构建时传入 --no-clean 可关闭该行为

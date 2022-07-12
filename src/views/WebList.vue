@@ -9,6 +9,9 @@
           <el-menu-item index="/GyStation">
             <span>顾渊工作站</span>
           </el-menu-item>
+          <el-menu-item index="/GyKnowledge">
+            <span>顾渊知识站</span>
+          </el-menu-item>
           <el-menu-item index="/GyShop">
             <span>顾渊商城</span>
           </el-menu-item>

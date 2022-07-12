@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'; //引入elm组件
 import 'element-ui/lib/theme-chalk/index.css'; //引入elm样式
-import '@/assets/base.css'
+import '@/assets/base.css' //引入基础样式
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 new Vue({

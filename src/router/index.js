@@ -37,11 +37,31 @@ const routes = [{
         name: '商城后台管理系统',
         component: () => import("@/views/Admin.vue"),
       },
+      {
+        path: "/GyKnowledge",
+        name: '顾渊知识站',
+        component: () => import("@/views/GyKnowledge/GyKnowledge.vue"),
+      },
     ]
-  }, {
+  },
+  {
     path: "/GyStationIndex",
     name: '顾渊工作站首页',
     component: () => import('@/views/GyStation/GyStationIndex.vue'),
+  },
+  {
+    path: "/GyKnowledgeIndex",
+    name: '顾渊知识站首页',
+    component: () => import('@/views/GyKnowledge/GyKnowledgeIndex.vue'),
+    children: [{
+      path: "/KnowledgeWebView",
+      name: "web前端",
+      component: () => import('@/views/GyKnowledge/KnowledgeWebView.vue')
+    }, {
+      path: "/Arithmetic",
+      name: "算法",
+      component: () => import('@/views/GyKnowledge/Arithmetic.vue')
+    }, ]
   }
 
 ]

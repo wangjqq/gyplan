@@ -7,9 +7,7 @@
 <script>
 export default {
   methods: {
-    turn() {
-      window.open(`/GuYuan-station/index1.html`)
-    }
+
   }
 }
 </script>
