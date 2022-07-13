@@ -13,3 +13,10 @@ export function getDataStructureList() {
     method: "get",
   });
 }
+
+export function getDataStructureKeyTypeList() {
+  return request({
+    url: "/api/knowledge/getDataStructureKeyTypeList",
+    method: "get",
+  });
+}
