@@ -4,7 +4,7 @@ import {
 } from "element-ui";
 const request = axios.create({
   // baseURL: "http://127.0.0.1:3007",
-  baseURL: "https://z40872287j.goho.co/:3007",
+  baseURL: "http://10.0.12.4/:3007",
   timeout: 5000
 })
 
