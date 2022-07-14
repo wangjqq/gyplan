@@ -6,7 +6,7 @@ module.exports = defineConfig({
   lintOnSave: false,
   devServer: {
     host: 'localhost',
-    port: 80, //设置端口
+    port: 8080, //设置端口
     open: true, // 控制是否自动打开浏览器
     // disableHostCheck: true, //跳过检查host  已遗弃
     historyApiFallback: true,
