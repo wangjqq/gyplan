@@ -31,7 +31,7 @@
         </el-form-item>
         <div v-if="form.is_knowledge_point==1">
           <el-form-item label="选择知识点分类:">
-            <el-cascader v-model="knowledgeType" :options="knowledgeOptions" @change="handleChange"></el-cascader>
+            <el-cascader v-model="knowledgeType" :options="knowledgeOptions"></el-cascader>
             <el-button class="el-icon-plus" @click="addKeyTypeFormVisible = true" style="margin-left:10px">新建</el-button>
           </el-form-item>
           <el-form-item label="知识点名称:">
@@ -85,7 +85,7 @@
     <el-dialog title="新建" :visible.sync="addKeyTypeFormVisible">
       <el-form :model="newKeyTypeForm">
         <el-form-item label="选择分类:">
-          <el-cascader v-model="knowledgeType" :options="knowledgeOptions" @change="handleChange" style="margin-left:28px"></el-cascader>
+          <el-cascader v-model="knowledgeType" :options="knowledgeOptions" :props="{ checkStrictly: true }" style="margin-left:28px"></el-cascader>
         </el-form-item>
         <el-form-item label="新建:">
           <template>
@@ -100,14 +100,14 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addKeyTypeFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addKeyTypeFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="addKeyTypeFormVisible = false,addDataStructureKeyType()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getDataStructureList, getDataStructureKeyTypeList } from "../../api/GyKnowledge";
+import { getDataStructureList, getDataStructureKeyTypeList, addDataStructureKeyType } from "../../api/GyKnowledge";
 
 export default {
   data() {
@@ -117,6 +117,7 @@ export default {
       addKeyTypeFormVisible: false,//是否显示添加知识点分类弹出框
       knowledgeType: [],//选择的知识分类
       knowledgeOptions: [],//算法/数据结构的分类
+      knowledgeOptionsOld: [],//算法/数据结构的原始分类列表
       form: {
         id: '',//题目id
         name: '',//题目名称
@@ -131,10 +132,40 @@ export default {
         note: '', //备注
       },//添加收集的表单
       newKeyTypeForm: {
-        newKeyType: '',//新建分类类型 0 同级分类 1 子级分类
+        newKeyType: '',//新建分类类型 0 父级分类 1 同级分类 2 子级分类
         newKeyName: '',//新建的知识点分类名称
+        newKeyFatherId: '',//新建的知识点父id
       },//新建知识点表单
 
+    }
+  },
+  watch: {
+    "newKeyTypeForm.newKeyType"() {
+      // console.log(this.newKeyTypeForm)
+      // handler: (val, olVal) => {
+      // this.knowledgeType[this.knowledgeType.length - 2] 这是当前选中项的父元素的id  
+      // todo:获取到当前选中项的父元素的父元素id 
+
+      // .indexOf(idYourAreLookingFor);
+      if (this.newKeyTypeForm.newKeyType == '0') {
+        let elementPos = ''
+        this.knowledgeOptionsOld.map((x) => {
+          if (x.id == this.knowledgeType[this.knowledgeType.length - 2]) {
+            elementPos = x.father_id;
+          }
+        })
+        // console.log(elementPos);
+        this.newKeyTypeForm.newKeyFatherId = elementPos
+        // console.log(this.newKeyTypeForm.newKeyFatherId);
+      } else if (this.newKeyTypeForm.newKeyType == '1') {
+        this.newKeyTypeForm.newKeyFatherId = this.knowledgeType[this.knowledgeType.length - 2]
+      } else {
+        this.newKeyTypeForm.newKeyFatherId = this.knowledgeType[this.knowledgeType.length - 1]
+      }
+      console.log(this.knowledgeType + ' ' + this.newKeyTypeForm.newKeyFatherId);
+      // },
+      // deep: true,
+      // immediate: true
     }
   },
   created() {
@@ -155,10 +186,9 @@ export default {
       data.data.forEach(element => {
         element.value = element.id
       });
-
+      this.knowledgeOptionsOld = data.data
       var rJson = [];
       //将所有的pid的数据加到对应的id数据对象里面去，需要添加一个属性children
-
       for (var i = 0; i < data.data.length; i++) {
         var arr = [];
         for (var j = 0; j < data.data.length; j++) {
@@ -173,8 +203,20 @@ export default {
           rJson.push(data.data[i]);
         }
       }
-      console.info(rJson);
       this.knowledgeOptions = rJson
+    },
+    // 新增数据结构/算法知识点分类
+    async addDataStructureKeyType() {
+      let params = {
+        name: this.newKeyTypeForm.newKeyName,
+        father_id: this.newKeyTypeForm.newKeyFatherId,
+      };
+      let data = await addDataStructureKeyType(params)
+      console.log(data);
+      if (data.status == 200) {
+        this.getDataStructureKeyTypeList()
+        this.$message.success(data.message)
+      }
     }
   }
 }
