@@ -1,8 +1,12 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialogFormVisible = true">添加</el-button>
+    <el-select v-model="typeValue" placeholder="请选择">
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+      </el-option>
+    </el-select>
+    <el-button type="primary" @click="dialogFormVisible = true" class="addBtn">添加</el-button>
     <template>
-      <el-table :data="structureListData" style="width: 100%">
+      <el-table v-if="structureListDataNew[0].is_knowledge_point==0" :data="structureListDataNew" style="width: 100%" stripe border @row-click="tableRowClick">
         <el-table-column prop="id" label="id" width="180">
         </el-table-column>
         <el-table-column prop="name" label="题目名" width="180">
@@ -19,6 +23,19 @@
         <el-table-column prop="note" label="备注" width="180">
         </el-table-column>
       </el-table>
+
+      <el-table v-else :data="structureListDataNew" style="width: 100%" stripe border>
+        <el-table-column prop="id" label="id" width="180">
+        </el-table-column>
+        <el-table-column prop="knowledgeType" label="知识点分类" width="180">
+        </el-table-column>
+        <el-table-column prop="key_point_name" label="知识点名称" width="180">
+        </el-table-column>
+        <el-table-column prop="key_point_content" label="知识点内容" width="180">
+        </el-table-column>
+        <el-table-column prop="note" label="备注" width="180">
+        </el-table-column>
+      </el-table>
     </template>
     <!-- 添加的弹出框 -->
     <el-dialog title="添加" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
@@ -31,7 +48,7 @@
         </el-form-item>
         <div v-if="form.is_knowledge_point==1">
           <el-form-item label="选择知识点分类:">
-            <el-cascader v-model="knowledgeType" :options="knowledgeOptions"></el-cascader>
+            <el-cascader v-model="form.knowledgeType" :options="knowledgeOptions"></el-cascader>
             <el-button class="el-icon-plus" @click="addKeyTypeFormVisible = true" style="margin-left:10px">新建</el-button>
           </el-form-item>
           <el-form-item label="知识点名称:">
@@ -77,7 +94,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false,addDataStructure()">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -107,17 +124,26 @@
 </template>
 
 <script>
-import { getDataStructureList, getDataStructureKeyTypeList, addDataStructureKeyType } from "../../api/GyKnowledge";
+import { getDataStructureList, getDataStructureKeyTypeList, addDataStructureKeyType, addDataStructure } from "../../api/GyKnowledge";
 
 export default {
   data() {
     return {
       structureListData: [],//算法/数据结构数据列表
+      structureListDataNew: [{ is_knowledge_point: 0 }],//处理过后的算法/数据结构数据列表 给了一个默认值,以免第一次进入网页值为空时报错
       dialogFormVisible: false,//是否显示添加弹出框
       addKeyTypeFormVisible: false,//是否显示添加知识点分类弹出框
       knowledgeType: [],//选择的知识分类
       knowledgeOptions: [],//算法/数据结构的分类
       knowledgeOptionsOld: [],//算法/数据结构的原始分类列表
+      options: [{
+        value: '0',
+        label: '题目'
+      }, {
+        value: '1',
+        label: '知识点'
+      }],//选项
+      typeValue: '0',//选择的类型的值
       form: {
         id: '',//题目id
         name: '',//题目名称
@@ -126,7 +152,7 @@ export default {
         difficulty: '',//题目难度  1 简单 2  中等 3 困难
         my_answer: '',//我的答案
         is_knowledge_point: '0',//是否是知识点 0 不是 是题目 1 是知识点
-        key_point_id: '',//知识点分类id
+        knowledgeType: [],//选择的知识分类
         key_point_name: '',//知识点的名字
         key_point_content: '',//知识点的内容
         note: '', //备注
@@ -141,12 +167,6 @@ export default {
   },
   watch: {
     "newKeyTypeForm.newKeyType"() {
-      // console.log(this.newKeyTypeForm)
-      // handler: (val, olVal) => {
-      // this.knowledgeType[this.knowledgeType.length - 2] 这是当前选中项的父元素的id  
-      // todo:获取到当前选中项的父元素的父元素id 
-
-      // .indexOf(idYourAreLookingFor);
       if (this.newKeyTypeForm.newKeyType == '0') {
         let elementPos = ''
         this.knowledgeOptionsOld.map((x) => {
@@ -154,18 +174,18 @@ export default {
             elementPos = x.father_id;
           }
         })
-        // console.log(elementPos);
         this.newKeyTypeForm.newKeyFatherId = elementPos
-        // console.log(this.newKeyTypeForm.newKeyFatherId);
       } else if (this.newKeyTypeForm.newKeyType == '1') {
         this.newKeyTypeForm.newKeyFatherId = this.knowledgeType[this.knowledgeType.length - 2]
       } else {
         this.newKeyTypeForm.newKeyFatherId = this.knowledgeType[this.knowledgeType.length - 1]
       }
       console.log(this.knowledgeType + ' ' + this.newKeyTypeForm.newKeyFatherId);
-      // },
-      // deep: true,
+    },
+    typeValue: {
+      handler: 'getNewStructureListData',
       // immediate: true
+
     }
   },
   created() {
@@ -177,6 +197,7 @@ export default {
     async getDataStructureList() {
       let data = await getDataStructureList()
       this.structureListData = data.data
+      this.getNewStructureListData()
     },
     // 获取数据结构/算法知识点分类列表
     async getDataStructureKeyTypeList() {
@@ -217,10 +238,48 @@ export default {
         this.getDataStructureKeyTypeList()
         this.$message.success(data.message)
       }
+    },
+    // 新增数据结构/算法的题目/知识点
+    async addDataStructure() {
+      console.log(this.form.knowledgeType);
+      this.form.knowledgeType = this.form.knowledgeType[this.form.knowledgeType.length - 1]
+      console.log(this.form.knowledgeType);
+      let params = this.form
+      let data = await addDataStructure(params)
+      if (data.status == 200) {
+        this.getDataStructureList()
+        this.$message.success(data.message)
+        return
+      }
+      this.$message.error(data.message)
+    },
+    // 处理数据结构/算法的题目/知识点列表
+    getNewStructureListData() {
+      this.structureListDataNew = []
+      if (this.typeValue == '0') {
+        this.structureListData.forEach((value) => {
+          if (value.is_knowledge_point == '0') {
+            this.structureListDataNew.push(value)
+          }
+        })
+      } else if (this.typeValue == '1') {
+        this.structureListData.forEach((value) => {
+          if (value.is_knowledge_point == '1') {
+            this.structureListDataNew.push(value)
+          }
+        })
+      }
+    },
+    // 当某一行被点击时会触发该事件
+    tableRowClick(row, column, event) {
+      console.log(row);
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.addBtn {
+  margin-left: 20px;
+}
 </style>

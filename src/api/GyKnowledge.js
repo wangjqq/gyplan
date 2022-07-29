@@ -28,3 +28,11 @@ export function addDataStructureKeyType(params) {
     params
   });
 }
+// 新增数据结构/算法的题目/知识点
+export function addDataStructure(params) {
+  return request({
+    url: "/api/knowledge/addDataStructure",
+    method: "post",
+    params
+  });
+}
