@@ -7,33 +7,38 @@
     <el-button type="primary" @click="dialogFormVisible = true" class="addBtn">添加</el-button>
     <template>
       <el-table v-if="structureListDataNew[0].is_knowledge_point==0" :data="structureListDataNew" style="width: 100%" stripe border @row-click="tableRowClick">
-        <el-table-column prop="id" label="id" width="180">
+        <el-table-column prop="id" label="id" width="180" header-align="center">
         </el-table-column>
-        <el-table-column prop="name" label="题目名" width="180">
+        <el-table-column prop="name" label="题目名" width="180" header-align="center">
         </el-table-column>
-        <el-table-column prop="answer" label="题解" width="180">
+        <el-table-column prop="answer" label="题解" width="180" header-align="center" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="state" label="状态" width="180">
-
+        <el-table-column prop="state" label="状态" width="220" header-align="center">
+          <template slot-scope="scope">
+            <el-rate v-model="scope.row.state" show-text disabled :texts="stateTexts"></el-rate>
+          </template>
         </el-table-column>
-        <el-table-column prop="difficulty" label="难度" width="180">
+        <el-table-column prop="difficulty" label="难度" width="200" header-align="center">
+          <template slot-scope="scope">
+            <el-rate v-model="scope.row.difficulty" show-text disabled :texts="difficultyTexts"></el-rate>
+          </template>
         </el-table-column>
-        <el-table-column prop="my_answer" label="我的答案" width="180">
+        <el-table-column prop="my_answer" label="我的答案" width="180" header-align="center" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="note" label="备注" width="180">
+        <el-table-column prop="createdTime" label="创建时间" width="200" header-align="center">
         </el-table-column>
       </el-table>
 
-      <el-table v-else :data="structureListDataNew" style="width: 100%" stripe border>
-        <el-table-column prop="id" label="id" width="180">
+      <el-table v-else :data="structureListDataNew" style="width: 100%" stripe border @row-click="tableRowClick">
+        <el-table-column prop="id" label="id" width="180" header-align="center">
         </el-table-column>
-        <el-table-column prop="knowledgeType" label="知识点分类" width="180">
+        <el-table-column prop="knowledgeType" label="知识点分类" width="180" header-align="center">
         </el-table-column>
-        <el-table-column prop="key_point_name" label="知识点名称" width="180">
+        <el-table-column prop="key_point_name" label="知识点名称" width="180" header-align="center">
         </el-table-column>
-        <el-table-column prop="key_point_content" label="知识点内容" width="180">
+        <el-table-column prop="key_point_content" label="知识点内容" width="180" header-align="center" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="note" label="备注" width="180">
+        <el-table-column prop="createdTime" label="创建时间" width="200" header-align="center">
         </el-table-column>
       </el-table>
     </template>
@@ -55,7 +60,7 @@
             <el-input v-model="form.key_point_name" style="width:300px"></el-input>
           </el-form-item>
           <el-form-item label="知识点内容:">
-            <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="form.key_point_content">
+            <el-input type="textarea" autosize placeholder="请输入内容" v-model="form.key_point_content">
             </el-input>
           </el-form-item>
         </div>
@@ -63,27 +68,33 @@
           <el-form-item label="题目:">
             <el-input v-model="form.name" style="width:300px"></el-input>
           </el-form-item>
+          <el-form-item label="题目描述:">
+            <el-input v-model="form.description" type="textarea" autosize placeholder="请输入内容"></el-input>
+          </el-form-item>
           <el-form-item label="题目解答:">
-            <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="form.answer">
+            <el-input type="textarea" autosize placeholder="请输入内容" v-model="form.answer">
             </el-input>
           </el-form-item>
           <el-form-item label="题目状态:">
             <template>
               <el-radio v-model="form.state" label="1">未开始</el-radio>
-              <el-radio v-model="form.state" label="2">已解答</el-radio>
-              <el-radio v-model="form.state" label="3">尝试过</el-radio>
-              <el-radio v-model="form.state" label="4">已牢记</el-radio>
+              <el-radio v-model="form.state" label="2">尝试过</el-radio>
+              <el-radio v-model="form.state" label="3">多次尝试过</el-radio>
+              <el-radio v-model="form.state" label="4">已解答</el-radio>
+              <el-radio v-model="form.state" label="5">已牢记</el-radio>
             </template>
           </el-form-item>
           <el-form-item label="难度:">
             <template>
               <el-radio v-model="form.difficulty" label="1" style="margin-left:27px">简单</el-radio>
-              <el-radio v-model="form.difficulty" label="2" style="margin-left:16px">中等</el-radio>
-              <el-radio v-model="form.difficulty" label="3" style="margin-left:13px">困难</el-radio>
+              <el-radio v-model="form.difficulty" label="2" style="margin-left:16px">较简单</el-radio>
+              <el-radio v-model="form.difficulty" label="3" style="margin-left:13px">较难</el-radio>
+              <el-radio v-model="form.difficulty" label="4" style="margin-left:13px">难</el-radio>
+              <el-radio v-model="form.difficulty" label="5" style="margin-left:13px">极难</el-radio>
             </template>
           </el-form-item>
           <el-form-item label="我的答案:">
-            <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="form.my_answer">
+            <el-input type="textarea" autosize placeholder="请输入内容" v-model="form.my_answer">
             </el-input>
           </el-form-item>
         </div>
@@ -120,6 +131,46 @@
         <el-button type="primary" @click="addKeyTypeFormVisible = false,addDataStructureKeyType()">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 点击知识的弹出框 -->
+    <el-dialog title="知识详情" :visible.sync="knowledgeDetailPageVisible">
+      <el-form :model="knowledgeDetail">
+        <el-form-item label="知识ID:">
+          {{knowledgeDetail.id}}
+        </el-form-item>
+        <div>
+          <el-form-item label="题目名称:">
+            <el-input v-model="knowledgeDetail.name" style="width:204px"></el-input>
+          </el-form-item>
+          <el-form-item label="创建时间:">
+            {{knowledgeDetail.createdTime}}
+          </el-form-item>
+          <el-form-item label="题目状态:">
+            <el-rate v-model="knowledgeDetail.state" show-text :texts="stateTexts"></el-rate>
+          </el-form-item>
+          <el-form-item label="题目难度:">
+            <el-rate v-model="knowledgeDetail.difficulty" show-text :texts="difficultyTexts"></el-rate>
+          </el-form-item>
+          <el-form-item label="题目描述:">
+            <el-input type="textarea" autosize placeholder="请输入内容" v-model="knowledgeDetail.description">
+            </el-input>
+          </el-form-item>
+          <el-form-item label="我的答案:">
+            <el-input type="textarea" autosize placeholder="请输入内容" v-model="knowledgeDetail.my_answer">
+            </el-input>
+          </el-form-item>
+          <el-form-item label="题目答案:">
+            <el-input type="textarea" autosize placeholder="请输入内容" v-model="knowledgeDetail.answer">
+            </el-input>
+          </el-form-item>
+        </div>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="knowledgeDetailPageVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addDataStructure(1),knowledgeDetailPageVisible = false">保存编辑</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -129,10 +180,13 @@ import { getDataStructureList, getDataStructureKeyTypeList, addDataStructureKeyT
 export default {
   data() {
     return {
+      stateTexts: ['未开始', '尝试过', '已解答', '已多次解答', '已牢记'],
+      difficultyTexts: ["简单", "较简单", "较难", "难", "极难"],
       structureListData: [],//算法/数据结构数据列表
       structureListDataNew: [{ is_knowledge_point: 0 }],//处理过后的算法/数据结构数据列表 给了一个默认值,以免第一次进入网页值为空时报错
       dialogFormVisible: false,//是否显示添加弹出框
       addKeyTypeFormVisible: false,//是否显示添加知识点分类弹出框
+      knowledgeDetailPageVisible: false,//是否显示知识详情弹出框
       knowledgeType: [],//选择的知识分类
       knowledgeOptions: [],//算法/数据结构的分类
       knowledgeOptionsOld: [],//算法/数据结构的原始分类列表
@@ -147,6 +201,7 @@ export default {
       form: {
         id: '',//题目id
         name: '',//题目名称
+        description: '',//题目描述
         answer: '',//题目解答
         state: '',//题目状态  1 未开始 2 已解答 3 尝试过 4 已牢记
         difficulty: '',//题目难度  1 简单 2  中等 3 困难
@@ -162,6 +217,9 @@ export default {
         newKeyName: '',//新建的知识点分类名称
         newKeyFatherId: '',//新建的知识点父id
       },//新建知识点表单
+      knowledgeDetail: {
+
+      }//知识详情信息
 
     }
   },
@@ -196,6 +254,9 @@ export default {
     // 获取算法/数据结构数据列表
     async getDataStructureList() {
       let data = await getDataStructureList()
+      if (data.data == []) {
+        return
+      }
       this.structureListData = data.data
       this.getNewStructureListData()
     },
@@ -240,15 +301,33 @@ export default {
       }
     },
     // 新增数据结构/算法的题目/知识点
-    async addDataStructure() {
-      console.log(this.form.knowledgeType);
-      this.form.knowledgeType = this.form.knowledgeType[this.form.knowledgeType.length - 1]
-      console.log(this.form.knowledgeType);
+    async addDataStructure(val) {
+      if (val != 1) {
+        console.log(this.form.knowledgeType);
+        this.form.knowledgeType = this.form.knowledgeType[this.form.knowledgeType.length - 1]
+        console.log(this.form.knowledgeType);
+      } else {
+        this.form = this.knowledgeDetail;
+      }
       let params = this.form
       let data = await addDataStructure(params)
       if (data.status == 200) {
         this.getDataStructureList()
         this.$message.success(data.message)
+        this.form = {
+          id: '',//题目id
+          name: '',//题目名称
+          description: '',//题目描述
+          answer: '',//题目解答
+          state: '',//题目状态  1 未开始 2 已解答 3 尝试过 4 已牢记
+          difficulty: '',//题目难度  1 简单 2  中等 3 困难
+          my_answer: '',//我的答案
+          is_knowledge_point: '0',//是否是知识点 0 不是 是题目 1 是知识点
+          knowledgeType: [],//选择的知识分类
+          key_point_name: '',//知识点的名字
+          key_point_content: '',//知识点的内容
+          note: '', //备注
+        }
         return
       }
       this.$message.error(data.message)
@@ -272,7 +351,9 @@ export default {
     },
     // 当某一行被点击时会触发该事件
     tableRowClick(row, column, event) {
-      console.log(row);
+      // console.log(row);
+      this.knowledgeDetailPageVisible = true;
+      this.knowledgeDetail = row;
     }
   }
 }
