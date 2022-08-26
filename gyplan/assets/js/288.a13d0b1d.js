@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkgyplan"]=self["webpackChunkgyplan"]||[]).push([[288],{3288:function(e,n,t){t.r(n),t.d(n,{default:function(){return f}});var l=function(){var e=this,n=e._self._c;return n("div",[n("el-container",[n("el-main",[e._v(" web前端 ")]),n("el-footer")],1)],1)},r=[],u={data(){return{}},created(){},methods:{}},a=u,c=t(1001),s=(0,c.Z)(a,l,r,!1,null,null,null),f=s.exports}}]);
+//# sourceMappingURL=288.a13d0b1d.js.map

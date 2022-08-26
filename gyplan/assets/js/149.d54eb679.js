@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkgyplan"]=self["webpackChunkgyplan"]||[]).push([[149],{7149:function(n,t,e){e.r(t),e.d(t,{default:function(){return c}});var l=function(){var n=this,t=n._self._c;return t("div",[t("router-link",{staticStyle:{"font-size":"100px"},attrs:{to:"/GyKnowledgeIndex"}},[n._v("顾渊知识站")])],1)},u=[],r={},s=r,a=e(1001),i=(0,a.Z)(s,l,u,!1,null,null,null),c=i.exports}}]);
+//# sourceMappingURL=149.d54eb679.js.map

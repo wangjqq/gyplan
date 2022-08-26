@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkgyplan"]=self["webpackChunkgyplan"]||[]).push([[849],{5849:function(n,t,u){u.r(t),u.d(t,{default:function(){return c}});var l=function(){var n=this,t=n._self._c;return t("div",{staticClass:"gystation"},[t("p",{on:{click:n.turn}},[n._v("顾渊工作站")])])},s=[],e={methods:{turn(){window.open("/GuYuan-station/index1.html")}}},a=e,i=u(1001),r=(0,i.Z)(a,l,s,!1,null,null,null),c=r.exports}}]);
-//# sourceMappingURL=849.4b4d111c.js.map

@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkgyplan"]=self["webpackChunkgyplan"]||[]).push([[237],{237:function(t,n,l){l.r(n),l.d(n,{default:function(){return o}});var s=function(){var t=this,n=t._self._c;return n("div",{staticClass:"gystation"},[n("router-link",{attrs:{to:"/GyStationIndex"}},[t._v("顾渊工作站")])],1)},u=[],e={methods:{}},a=e,r=l(1001),i=(0,r.Z)(a,s,u,!1,null,null,null),o=i.exports}}]);
+//# sourceMappingURL=237.c5b6dcdc.js.map
