@@ -28,19 +28,22 @@
         <el-table-column prop="createdTime" label="创建时间" width="200" header-align="center">
         </el-table-column>
       </el-table>
+      <div v-else>
+        <el-cascader v-model="form.knowledgeType" :options="knowledgeOptions" placeholder="选择知识点分类"></el-cascader>
+        <el-table :data="structureListDataNew" style="width: 100%" stripe border @row-click="tableRowClick">
+          <el-table-column prop="id" label="id" width="180" header-align="center">
+          </el-table-column>
+          <el-table-column prop="knowledgeType" label="知识点分类" width="180" header-align="center" align="center">
+          </el-table-column>
+          <el-table-column prop="key_point_name" label="知识点名称" width="180" header-align="center">
+          </el-table-column>
+          <el-table-column prop="key_point_content" label="知识点内容" width="180" header-align="center" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column prop="createdTime" label="创建时间" width="200" header-align="center">
+          </el-table-column>
+        </el-table>
+      </div>
 
-      <el-table v-else :data="structureListDataNew" style="width: 100%" stripe border @row-click="tableRowClick">
-        <el-table-column prop="id" label="id" width="180" header-align="center">
-        </el-table-column>
-        <el-table-column prop="knowledgeType" label="知识点分类" width="180" header-align="center">
-        </el-table-column>
-        <el-table-column prop="key_point_name" label="知识点名称" width="180" header-align="center">
-        </el-table-column>
-        <el-table-column prop="key_point_content" label="知识点内容" width="180" header-align="center" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column prop="createdTime" label="创建时间" width="200" header-align="center">
-        </el-table-column>
-      </el-table>
     </template>
     <!-- 添加的弹出框 -->
     <el-dialog title="添加" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
@@ -344,6 +347,11 @@ export default {
       } else if (this.typeValue == '1') {
         this.structureListData.forEach((value) => {
           if (value.is_knowledge_point == '1') {
+            this.knowledgeOptionsOld.forEach((val) => {
+              if (val.id == value.knowledgeType) {
+                value.knowledgeType = val.label
+              }
+            })
             this.structureListDataNew.push(value)
           }
         })

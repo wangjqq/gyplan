@@ -16,6 +16,7 @@ const routes = [{
         path: "/GyStation",
         name: '顾渊工作站',
         component: () => import("@/views/GyStation/GyStation.vue"),
+
       },
       {
         path: "/GyShop",
@@ -48,6 +49,11 @@ const routes = [{
     path: "/GyStationIndex",
     name: '顾渊工作站首页',
     component: () => import('@/views/GyStation/GyStationIndex.vue'),
+    children: [{
+      path: "/GyStationIMS",
+      name: "元器件管理系统",
+      component: () => import("@/views/GyStation/GyStationIMS.vue"),
+    }]
   },
   {
     path: "/GyKnowledgeIndex",
