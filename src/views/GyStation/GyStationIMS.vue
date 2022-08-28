@@ -230,7 +230,10 @@ export default {
     },
     // 添加元器件
     async addItem() {
-      this.addform.type_id = this.addform.type_id.at(-1);
+      console.log(typeof this.addform.type_id);
+      if (typeof this.addform.type_id == "object") {
+        this.addform.type_id = this.addform.type_id.at(-1);
+      }
       this.ImsOptionsOld.forEach(element => {
         if (element.id == this.addform.type_id) {
           this.addform.type_name = element.type_name;
@@ -257,21 +260,21 @@ export default {
       if (data.status == 200) {
         this.getAllImsList()
         this.$message.success(data.message)
-        this.addform = {
-          type_id: '',
-          type_name: '',
-          type_father_id: '',
-          package: '',
-          electricity: '',
-          description: '',
-          voltage: '',
-          name: '',
-          quantity: '',
-          price: '',
-          smt: '',
-          size: '',
-          place: ''
-        }
+        // this.addform = {
+        //   type_id: '',
+        //   type_name: '',
+        //   type_father_id: '',
+        //   package: '',
+        //   electricity: '',
+        //   description: '',
+        //   voltage: '',
+        //   name: '',
+        //   quantity: '',
+        //   price: '',
+        //   smt: '',
+        //   size: '',
+        //   place: ''
+        // }
       }
     }
 
