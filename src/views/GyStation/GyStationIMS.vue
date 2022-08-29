@@ -65,6 +65,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
+            <el-form-item label="尺寸:">
+              <el-input v-model="addform.size" style="width: 204px"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item label="最大电压:">
               <el-input v-model="addform.voltage" style="width: 204px"></el-input>
             </el-form-item>
@@ -75,8 +80,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="尺寸:">
-              <el-input v-model="addform.size" style="width: 204px"></el-input>
+            <el-form-item label="存放位置:">
+              <el-input v-model="addform.place" style="width: 204px"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -145,6 +150,7 @@ export default {
         price: '',
         smt: '',
         size: '',
+        place: ''
       },
       newTypeForm: {
         type_name: '',
@@ -230,7 +236,10 @@ export default {
     },
     // 添加元器件
     async addItem() {
-      this.addform.type_id = this.addform.type_id.at(-1);
+      console.log(typeof this.addform.type_id);
+      if (typeof this.addform.type_id == "object") {
+        this.addform.type_id = this.addform.type_id.at(-1);
+      }
       this.ImsOptionsOld.forEach(element => {
         if (element.id == this.addform.type_id) {
           this.addform.type_name = element.type_name;
@@ -251,25 +260,27 @@ export default {
         smt: this.addform.smt,
         name: this.addform.name,
         size: this.addform.size,
+        place: this.addform.place
       };
       let data = await addItem(params);
       if (data.status == 200) {
         this.getAllImsList()
         this.$message.success(data.message)
-        this.addform = {
-          type_id: '',
-          type_name: '',
-          type_father_id: '',
-          package: '',
-          electricity: '',
-          description: '',
-          voltage: '',
-          name: '',
-          quantity: '',
-          price: '',
-          smt: '',
-          size: '',
-        }
+        // this.addform = {
+        //   type_id: '',
+        //   type_name: '',
+        //   type_father_id: '',
+        //   package: '',
+        //   electricity: '',
+        //   description: '',
+        //   voltage: '',
+        //   name: '',
+        //   quantity: '',
+        //   price: '',
+        //   smt: '',
+        //   size: '',
+        //   place: ''
+        // }
       }
     }
 
