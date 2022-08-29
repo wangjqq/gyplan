@@ -8,31 +8,31 @@
         <el-cascader v-model="chooesType" @change="chooesTypeChange" :options="ImsOptions" :props="{ expandTrigger: 'hover' }" placeholder="选择分类"></el-cascader>
       </el-col>
     </el-row>
-    <el-table :data="ImsList" style="width: 100%">
-      <el-table-column prop="id" label="id" width="50"> </el-table-column>
-      <el-table-column prop="type_name" label="类型" width="180"> </el-table-column>
-      <el-table-column prop="package" label="封装"> </el-table-column>
-      <el-table-column prop="name" label="名称"> </el-table-column>
-      <el-table-column prop="description" label="描述"> </el-table-column>
-      <el-table-column prop="quantity" label="数量"> </el-table-column>
-      <el-table-column prop="description" label="描述"> </el-table-column>
-      <el-table-column prop="voltage" label="最大电压">
+    <el-table :data="ImsList" style="width: 100%" border :row-class-name="tableRowClassName">
+      <el-table-column prop="id" sortable label="id" width="60" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="type_name" sortable label="分类" width="180" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="package" sortable label="封装" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="name" label="名称" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="description" label="描述" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="quantity" label="数量" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="description" label="描述" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="voltage" label="最大电压" header-align="center" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.voltage == '' ? '' : scope.row.voltage + 'V' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="electricity" label="最大电流">
+      <el-table-column prop="electricity" label="最大电流" header-align="center" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.electricity == '' ? '' : scope.row.electricity + 'A' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="size" label="尺寸"> </el-table-column>
-      <el-table-column prop="smt" label="焊接方式">
+      <el-table-column prop="size" label="尺寸" align="center"> </el-table-column>
+      <el-table-column prop="smt" sortable label="焊接方式" header-align="center" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.smt == '1' ? '贴片' : '直插' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="price" label="参考价格"> </el-table-column>
+      <el-table-column prop="price" label="参考价格" header-align="center" align="center"> </el-table-column>
     </el-table>
 
     <!-- 添加元器件的弹出框 -->
@@ -170,6 +170,12 @@ export default {
 
       console.log(data);
     },
+    tableRowClassName({ row, rowIndex }) {
+      if (row.quantity == 0) {
+        return 'warning-row';
+      }
+      return '';
+    },
     // 获取所有元器件列表
     async getAllImsList() {
       let data = await getAllImsList();
@@ -272,4 +278,11 @@ export default {
 </script>
 
 <style>
+.el-table .warning-row {
+  background: oldlace;
+}
+
+.el-table .success-row {
+  background: #f0f9eb;
+}
 </style>
