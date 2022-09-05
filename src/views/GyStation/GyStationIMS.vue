@@ -13,7 +13,7 @@
       <el-table-column prop="type_name" sortable label="分类" width="180" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="package" sortable label="封装" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="name" label="名称" header-align="center" align="center"> </el-table-column>
-      <el-table-column prop="description" label="描述" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="place" label="存放地点" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="quantity" label="数量" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="description" label="描述" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="voltage" label="最大电压" header-align="center" align="center">
