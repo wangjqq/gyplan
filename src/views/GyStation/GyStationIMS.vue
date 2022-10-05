@@ -9,7 +9,7 @@
       </el-col>
     </el-row>
     <el-table :data="ImsList" style="width: 100%" border :row-class-name="tableRowClassName">
-      <el-table-column prop="id" sortable label="id" width="60" header-align="center" align="center"> </el-table-column>
+      <el-table-column prop="id" sortable label="id" width="70" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="type_name" sortable label="分类" width="180" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="package" sortable label="封装" header-align="center" align="center"> </el-table-column>
       <el-table-column prop="name" label="名称" header-align="center" align="center"> </el-table-column>
